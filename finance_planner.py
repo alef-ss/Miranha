@@ -10,19 +10,19 @@ class FinancePlanner:
         cursor = self.db.conn.cursor()
         
         # Obter salário
-        cursor.execute("SELECT salario FROM usuarios WHERE user_id = ?", (user_id,))
+        cursor.execute("SELECT salario FROM usuarios WHERE user_id = %s", (user_id,))
         salario = cursor.fetchone()[0] or 0.0
         
         # Obter dívidas ativas ordenadas por taxa de juros (descendente)
         cursor.execute(
-            "SELECT id, banco, tipo, valor_restante, taxa_juros FROM dividas WHERE user_id = ? AND valor_restante > 0 ORDER BY taxa_juros DESC",
+            "SELECT id, banco, tipo, valor_restante, taxa_juros FROM dividas WHERE user_id = %s AND valor_restante > 0 ORDER BY taxa_juros DESC",
             (user_id,)
         )
         dividas = cursor.fetchall()
         
         # Obter objetivos ativos ordenados por prioridade (alta > media > baixa)
         cursor.execute(
-            "SELECT id, descricao, valor_total, valor_poupado, prioridade FROM objetivos WHERE user_id = ? AND valor_poupado < valor_total ORDER BY CASE prioridade WHEN 'alta' THEN 1 WHEN 'media' THEN 2 WHEN 'baixa' THEN 3 END",
+            "SELECT id, descricao, valor_total, valor_poupado, prioridade FROM objetivos WHERE user_id = %s AND valor_poupado < valor_total ORDER BY CASE prioridade WHEN 'alta' THEN 1 WHEN 'media' THEN 2 WHEN 'baixa' THEN 3 END",
             (user_id,)
         )
         objetivos = cursor.fetchall()
