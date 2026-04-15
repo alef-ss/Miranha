@@ -5,15 +5,20 @@ from database import FinanceDB
 from bcb_service import BCBService
 from finance_planner import FinancePlanner
 from datetime import datetime
+from dotenv import load_dotenv
+
+load_dotenv()
+db_url = os.getenv("DB_URL")
+token = os.getenv("TOKEN")
 
 # Configurações do Bot
-TOKEN = 'MTQ5MzI1MTg0NDg1NDY0OTAxNQ.GFDlne.4ZHFadPR4H8pIQc_xq5-9pP-z7HKRyOLcl_ZSI' # O usuário deve inserir o token aqui
+TOKEN = token # O usuário deve inserir o token aqui
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 # Instâncias de serviços
-db = FinanceDB("postgresql://neondb_owner:npg_kvD9dCWzOws2@ep-icy-grass-am5ojlp3.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require")
+db = FinanceDB(db_url)
 bcb = BCBService()
 planner = FinancePlanner(db, bcb)
 

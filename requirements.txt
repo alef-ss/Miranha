@@ -1,3 +1,4 @@
-discord.py
-pandas
-bcb
+discord.py==2.7.1
+pandas==3.0.2
+psycopg2_binary==2.9.11
+python-dotenv==1.2.2
